@@ -1,0 +1,9 @@
+services:
+  employee-management:
+    build: .
+    image: employee-management:latest
+    container_name: employee-management
+    ports:
+      # Host port defaults to 8080; override with HOST_PORT=9090 docker compose up
+      - "${HOST_PORT:-8080}:8080"
+    restart: "no"

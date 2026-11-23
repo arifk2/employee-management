@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Employee Management (Docker)" type="docker-deploy" factoryName="docker-compose.yaml" server-name="Docker">
+    <deployment type="docker-compose.yaml">
+      <settings>
+        <option name="sourceFilePath" value="docker-compose.yml" />
+        <option name="projectName" value="employee-management" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

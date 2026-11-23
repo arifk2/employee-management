@@ -12,6 +12,31 @@ docker build -t employee-management .
 docker run --rm -p 8080:8080 employee-management
 ```
 
+## Run from the IDE (IntelliJ IDEA)
+
+The app runs as a Docker container when you use the shared run configuration:
+
+1. Start Docker Desktop.
+2. In the Run dropdown, select **Employee Management (Docker)** and press Run. This runs `docker compose up --build`.
+3. Stop it with the Stop button, or run `docker compose down`.
+
+The app is at `http://localhost:8080`. If port 8080 is taken, run with `HOST_PORT=9090 docker compose up --build` and use port 9090 instead.
+
+Running the main class directly from the IDE starts the app on your local JVM, not in Docker.
+
+## Run with Docker Compose
+
+```bash
+docker compose up --build
+```
+
+## Run with Docker
+
+```bash
+docker build -t employee-management .
+docker run --rm -p 8080:8080 employee-management
+```
+
 ## Run locally (Maven Wrapper)
 
 ```bash
