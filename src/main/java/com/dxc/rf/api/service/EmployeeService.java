@@ -1,5 +1,6 @@
 package com.dxc.rf.api.service;
 
+import com.dxc.rf.api.exception.DuplicateEmailException;
 import com.dxc.rf.api.exception.EmployeeNotFoundException;
 import com.dxc.rf.api.model.Employee;
 import com.dxc.rf.api.repository.EmployeeRepository;
@@ -18,6 +19,9 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
+        if (repository.existsByEmailIgnoreCase(employee.getEmail())) {
+            throw new DuplicateEmailException(employee.getEmail());
+        }
         return repository.save(employee);
     }
 
