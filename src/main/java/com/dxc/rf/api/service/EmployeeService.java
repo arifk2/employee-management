@@ -4,6 +4,7 @@ import com.dxc.rf.api.exception.EmployeeNotFoundException;
 import com.dxc.rf.api.model.Employee;
 import com.dxc.rf.api.repository.EmployeeRepository;
 import java.util.List;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
+        if (repository.existsByEmailIgnoreCase(employee.getEmail())) {
+            throw new DataIntegrityViolationException("Email already exists (case-insensitive)");
+        }
         return repository.save(employee);
     }
 
@@ -33,6 +37,9 @@ public class EmployeeService {
 
     public Employee update(Long id, Employee changes) {
         Employee existing = findById(id);
+        if (repository.existsByEmailIgnoreCaseAndIdNot(changes.getEmail(), id)) {
+            throw new DataIntegrityViolationException("Email already exists (case-insensitive)");
+        }
         existing.setFirstName(changes.getFirstName());
         existing.setLastName(changes.getLastName());
         existing.setEmail(changes.getEmail());
