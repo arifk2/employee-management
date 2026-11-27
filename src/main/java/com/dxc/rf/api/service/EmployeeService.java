@@ -4,6 +4,7 @@ import com.dxc.rf.api.exception.EmployeeNotFoundException;
 import com.dxc.rf.api.model.Employee;
 import com.dxc.rf.api.repository.EmployeeRepository;
 import java.util.List;
+import java.util.Locale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class EmployeeService {
     }
 
     public Employee create(Employee employee) {
+        employee.setEmail(normalizeEmail(employee.getEmail()));
         return repository.save(employee);
     }
 
@@ -35,7 +37,7 @@ public class EmployeeService {
         Employee existing = findById(id);
         existing.setFirstName(changes.getFirstName());
         existing.setLastName(changes.getLastName());
-        existing.setEmail(changes.getEmail());
+        existing.setEmail(normalizeEmail(changes.getEmail()));
         existing.setDepartment(changes.getDepartment());
         existing.setSalary(changes.getSalary());
         return repository.save(existing);
@@ -46,5 +48,11 @@ public class EmployeeService {
             throw new EmployeeNotFoundException(id);
         }
         repository.deleteById(id);
+    }
+
+    // Emails are unique regardless of letter case, so store them in lower case
+    // and let the unique constraint reject duplicates.
+    private static String normalizeEmail(String email) {
+        return email == null ? null : email.toLowerCase(Locale.ROOT);
     }
 }
